@@ -12,9 +12,7 @@ public interface ProductService {
 
     Product update(Product product);
 
-    boolean deleteById(Long productId);
-
-    boolean delete(Product product);
+    boolean delete(Long productId);
 
     List<Product> getAllProducts();
 
