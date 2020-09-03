@@ -18,22 +18,22 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public Optional<Product> get(Long productId) {
-        return Optional.ofNullable(Storage.products.stream()
-                .filter(product -> product.getId() == productId)
-                .findFirst().orElseThrow());
+        return Storage.products.stream()
+                .filter(product -> product.getId().equals(productId))
+                .findFirst();
     }
 
     @Override
     public Product update(Product product) {
         Storage.products.stream()
-                .filter(x -> x.getId() == product.getId())
+                .filter(x -> x.getId().equals(product.getId()))
                 .map(x -> product);
         return product;
     }
 
     @Override
     public boolean delete(Long productId) {
-        return Storage.products.removeIf(product -> (product.getId() == productId));
+        return Storage.products.removeIf(product -> (product.getId().equals(productId)));
     }
 
     @Override

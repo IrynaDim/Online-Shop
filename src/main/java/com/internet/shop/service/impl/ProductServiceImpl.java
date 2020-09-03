@@ -20,8 +20,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product get(Long id) {
-
-        return productDao.get(id).orElseThrow();
+        return productDao.get(id).get();
     }
 
     @Override
@@ -31,7 +30,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public boolean delete(Long productId) {
-
         return productDao.delete(productId);
     }
 
