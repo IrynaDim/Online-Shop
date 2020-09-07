@@ -4,7 +4,6 @@ import com.internet.shop.dao.OrderDao;
 import com.internet.shop.db.Storage;
 import com.internet.shop.lib.Dao;
 import com.internet.shop.model.Order;
-import com.internet.shop.model.ShoppingCart;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,7 +36,6 @@ public class OrderDaoImpl implements OrderDao {
         IntStream.range(0, Storage.orders.size())
                 .filter(i -> Storage.orders.get(i).getOrderId().equals(order.getOrderId()))
                 .forEach(i -> Storage.orders.set(i, order));
-
         return order;
     }
 
@@ -51,16 +49,6 @@ public class OrderDaoImpl implements OrderDao {
     public boolean delete(Order orderRemove) {
         return Storage.orders.removeIf(order -> order.getOrderId()
                 .equals(orderRemove.getOrderId()));
-    }
-
-    @Override
-    public Order completeOrder(ShoppingCart shoppingCart) {
-        Order order = new Order(shoppingCart.getUserId());
-        order.getProducts().addAll(List.copyOf(shoppingCart.getProducts()));
-        Storage.addOrder(order);
-        shoppingCart.getProducts().clear();
-        return order;
-
     }
 
     @Override

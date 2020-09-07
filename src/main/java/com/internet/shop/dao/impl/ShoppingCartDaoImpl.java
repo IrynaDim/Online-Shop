@@ -46,4 +46,11 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
     public boolean delete(ShoppingCart cartRemove) {
         return Storage.shoppingCarts.removeIf(cart -> (cart.getId().equals(cartRemove.getId())));
     }
+
+    @Override
+    public Optional<ShoppingCart> getByUserId(Long userId) {
+        return Storage.shoppingCarts.stream()
+                .filter(cart -> cart.getUserId().equals(userId))
+                .findFirst();
+    }
 }
