@@ -5,15 +5,15 @@ import com.internet.shop.model.ShoppingCart;
 import java.util.List;
 
 public interface OrderService {
-    Order create(Order order);
-
-    Order completeOrder(ShoppingCart cart);
-
-    List<Order> getUserOrders(Long userId);
+    Order completeOrder(ShoppingCart shoppingCart);
 
     Order get(Long id);
 
+    List<Order> getUsersOrders(Long userId);
+
     List<Order> getAll();
 
-    boolean delete(Long id);
+    boolean deleteById(Long id);
+
+    boolean delete(Order order);
 }

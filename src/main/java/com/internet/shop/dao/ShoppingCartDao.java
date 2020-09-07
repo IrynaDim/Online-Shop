@@ -17,5 +17,5 @@ public interface ShoppingCartDao {
 
     boolean delete(ShoppingCart cart);
 
-    public Optional<ShoppingCart> getByUserId(Long userId);
+    Optional<ShoppingCart> getByUserId(Long userId);
 }

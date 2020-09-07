@@ -16,24 +16,14 @@ public class OrderServiceImpl implements OrderService {
     private OrderDao orderDao;
 
     @Inject
-    private ShoppingCartService shoppingCartService;
-
-    @Override
-    public Order create(Order order) {
-        return orderDao.create(order);
-    }
+    private ShoppingCartService shoppingCart;
 
     @Override
     public Order completeOrder(ShoppingCart shoppingCart) {
         Order order = new Order(shoppingCart.getUserId());
         order.setProducts(List.copyOf(shoppingCart.getProducts()));
-        shoppingCartService.clear(shoppingCart);
+        this.shoppingCart.clear(shoppingCart);
         return orderDao.create(order);
-    }
-
-    @Override
-    public List<Order> getUserOrders(Long userId) {
-        return orderDao.getUserOrders(userId);
     }
 
     @Override
@@ -42,12 +32,22 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> getUsersOrders(Long userId) {
+        return orderDao.getUserOrders(userId);
+    }
+
+    @Override
     public List<Order> getAll() {
         return orderDao.getAll();
     }
 
     @Override
-    public boolean delete(Long id) {
+    public boolean deleteById(Long id) {
         return orderDao.deleteById(id);
+    }
+
+    @Override
+    public boolean delete(Order order) {
+        return orderDao.delete(order);
     }
 }

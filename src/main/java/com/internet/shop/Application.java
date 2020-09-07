@@ -1,7 +1,6 @@
 package com.internet.shop;
 
 import com.internet.shop.lib.Injector;
-import com.internet.shop.model.Order;
 import com.internet.shop.model.Product;
 import com.internet.shop.model.ShoppingCart;
 import com.internet.shop.model.User;
@@ -49,20 +48,6 @@ public class Application {
         System.out.println("Get update user by id 3 (now its Anna): \n" + userService.get(3L));
         userService.delete(2L);
         System.out.println("All users without Valera: \n" + userService.getAll());
-
-        OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
-        Order order = new Order(1L);
-        Order order2 = new Order(2L);
-        Order order3 = new Order(3L);
-        orderService.create(order);
-        orderService.create(order2);
-        orderService.create(order3);
-        System.out.println("All orders: \n" + orderService.getAll());
-        System.out.println("Get order with order id 1: \n" + orderService.get(1L));
-        System.out.println("Get order with user id 3: \n" + orderService.getUserOrders(3L));
-        orderService.delete(3L);
-        System.out.println("All orders after remove: \n" + orderService.getAll());
-
         ShoppingCartService cartService = (ShoppingCartService) injector
                 .getInstance(ShoppingCartService.class);
         ShoppingCart cart1 = new ShoppingCart(1L);
@@ -83,8 +68,9 @@ public class Application {
         System.out.println("Cart #1 after remove all products: \n" + cartService.getByUserId(1L));
         cartService.deleteProduct(cart2, spoon);
         System.out.println("Cart #2 after remove spoon: \n" + cartService.getByUserId(2L));
+        OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
         orderService.completeOrder(cart3);
-        System.out.println("New order after completed: \n" + orderService.getUserOrders(3L));
+        System.out.println("New order after completed: \n" + orderService.getUsersOrders(3L));
         System.out.println("Cart 3 after complete order: \n" + cartService.getByUserId(3L));
     }
 }

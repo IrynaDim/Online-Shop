@@ -17,5 +17,5 @@ public interface OrderDao {
 
     boolean delete(Order order);
 
-    public List<Order> getUserOrders(Long userId);
+    List<Order> getUserOrders(Long userId);
 }
