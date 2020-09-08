@@ -45,6 +45,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public List<ShoppingCart> getAll() {
-        return shoppingCart.getAll();
+        return shoppingCart.getAllItems();
     }
 }
