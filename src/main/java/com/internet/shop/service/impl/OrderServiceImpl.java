@@ -38,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getAll() {
-        return orderDao.getAllItems();
+        return orderDao.getAll();
     }
 
     @Override

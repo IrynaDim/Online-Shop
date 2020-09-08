@@ -12,5 +12,5 @@ public interface GenericDao<T, K> {
 
     boolean deleteById(K id);
 
-    List<T> getAllItems();
+    List<T> getAll();
 }

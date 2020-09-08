@@ -25,7 +25,7 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
     }
 
     @Override
-    public List<ShoppingCart> getAllItems() {
+    public List<ShoppingCart> getAll() {
         return Storage.shoppingCarts;
     }
 

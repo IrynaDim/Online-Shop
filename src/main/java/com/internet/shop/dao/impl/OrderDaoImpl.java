@@ -27,7 +27,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> getAllItems() {
+    public List<Order> getAll() {
         return Storage.orders;
     }
 

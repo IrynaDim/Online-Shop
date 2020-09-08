@@ -38,7 +38,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<Product> getAllItems() {
+    public List<Product> getAll() {
         return Storage.products;
     }
 }
