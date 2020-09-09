@@ -30,11 +30,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public boolean delete(Long productId) {
-        return productDao.delete(productId);
+        return productDao.deleteById(productId);
     }
 
     @Override
     public List<Product> getAllProducts() {
-        return productDao.getAllProducts();
+        return productDao.getAll();
     }
 }
