@@ -1,6 +1,7 @@
 package com.internet.shop.controllers;
 
 import com.internet.shop.lib.Injector;
+import com.internet.shop.model.ShoppingCart;
 import com.internet.shop.service.ShoppingCartService;
 import com.internet.shop.service.UserService;
 import java.io.IOException;
@@ -21,6 +22,8 @@ public class DeleteUsersController extends HttpServlet {
         String userId = req.getParameter("id");
         Long id = Long.valueOf(userId);
         userService.delete(id);
+        ShoppingCart cart = shoppingCartService.getByUserId(id);
+        shoppingCartService.delete(cart.getId());
         resp.sendRedirect(req.getContextPath() + "/users/all");
     }
 }

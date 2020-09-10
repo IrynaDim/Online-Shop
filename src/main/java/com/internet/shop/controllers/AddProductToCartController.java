@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class AddProductController extends HttpServlet {
+public class AddProductToCartController extends HttpServlet {
     public static final Injector injector = Injector.getInstance("com.internet.shop");
     private ProductService productService = (ProductService) injector
             .getInstance(ProductService.class);
@@ -17,7 +17,7 @@ public class AddProductController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/views/products/addProduct.jsp")
+        req.getRequestDispatcher("/WEB-INF/views/products/add.jsp")
                 .forward(req, resp);
     }
 
@@ -29,7 +29,7 @@ public class AddProductController extends HttpServlet {
         if (!price.matches("[0-9.]+")) {
             req.setAttribute("message", "You put incorrect price. "
                     + "Please use only numbers separated by one dot.");
-            req.getRequestDispatcher("/WEB-INF/views/products/addProduct.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/views/products/add.jsp").forward(req, resp);
         }
         Double priceDouble = Double.parseDouble(price);
         productService.create(new Product(name, priceDouble));

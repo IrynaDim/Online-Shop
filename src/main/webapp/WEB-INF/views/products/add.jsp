@@ -8,7 +8,7 @@
 
 <h4 style="color:red">${message}</h4>
 
-<form method="post" action="${pageContext.request.contextPath}/products/addProduct">
+<form method="post" action="${pageContext.request.contextPath}/products/add">
     Please add type of a product: <input type="text" name="name">
     Please add price of a product: <input type="text" name="price">
     <button type="submit">Register</button>
