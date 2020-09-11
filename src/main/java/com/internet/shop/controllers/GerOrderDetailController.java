@@ -11,10 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class GerOrderDetailController extends HttpServlet {
-    private static final Injector injector = Injector
-            .getInstance("com.internet.shop");
-    private OrderService orderService =
-            (OrderService) injector
+    private static final Injector injector = Injector.getInstance("com.internet.shop");
+    private OrderService orderService = (OrderService) injector
                     .getInstance(OrderService.class);
 
     @Override
@@ -23,7 +21,6 @@ public class GerOrderDetailController extends HttpServlet {
         Long id = Long.valueOf(req.getParameter("id"));
         List<Product> products = orderService.get(id).getProducts();
         req.setAttribute("products", products);
-        req.getRequestDispatcher("/WEB-INF/views/orders/order-details.jsp")
-                .forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/orders/order-details.jsp").forward(req, resp);
     }
 }

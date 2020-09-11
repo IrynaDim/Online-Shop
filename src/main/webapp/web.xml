@@ -35,7 +35,7 @@
 
     <servlet>
         <servlet-name>addProduct</servlet-name>
-        <servlet-class>com.internet.shop.controllers.AddProductAdminController</servlet-class>
+        <servlet-class>com.internet.shop.controllers.AddProductController</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -93,22 +93,9 @@
         <url-pattern>/shopping-cart/products/add</url-pattern>
     </servlet-mapping>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     <servlet>
         <servlet-name>allProductsAdmin</servlet-name>
-        <servlet-class>com.internet.shop.controllers.GetAllProductsAdminController</servlet-class>
+        <servlet-class>com.internet.shop.controllers.ManageAllProductsController</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -153,7 +140,7 @@
 
     <servlet-mapping>
         <servlet-name>allOrders</servlet-name>
-        <url-pattern>/orders/all</url-pattern>
+        <url-pattern>/orders/by-user</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -163,22 +150,22 @@
 
     <servlet-mapping>
         <servlet-name>orderDetails</servlet-name>
-        <url-pattern>/orders/all/details</url-pattern>
+        <url-pattern>/orders/by-user/details</url-pattern>
     </servlet-mapping>
 
     <servlet>
         <servlet-name>allOrdersAdmin</servlet-name>
-        <servlet-class>com.internet.shop.controllers.GetAllOrdersAdminController</servlet-class>
+        <servlet-class>com.internet.shop.controllers.GetAllOrdersController</servlet-class>
     </servlet>
 
     <servlet-mapping>
         <servlet-name>allOrdersAdmin</servlet-name>
-        <url-pattern>/orders/all-admin</url-pattern>
+        <url-pattern>/orders/manage</url-pattern>
     </servlet-mapping>
 
     <servlet>
         <servlet-name>deleteOrdersAdmin</servlet-name>
-        <servlet-class>com.internet.shop.controllers.DeleteOrderAdminController</servlet-class>
+        <servlet-class>com.internet.shop.controllers.DeleteOrderController</servlet-class>
     </servlet>
 
     <servlet-mapping>

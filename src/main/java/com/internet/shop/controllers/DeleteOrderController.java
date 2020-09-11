@@ -8,9 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class DeleteOrderAdminController extends HttpServlet {
-    public static final Injector injector = Injector
-            .getInstance("com.internet.shop");
+public class DeleteOrderController extends HttpServlet {
+    public static final Injector injector = Injector.getInstance("com.internet.shop");
     private OrderService orderService = (OrderService) injector
             .getInstance(OrderService.class);
 

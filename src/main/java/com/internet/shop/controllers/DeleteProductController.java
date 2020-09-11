@@ -13,8 +13,8 @@ public class DeleteProductController extends HttpServlet {
     public static final Injector injector = Injector.getInstance("com.internet.shop");
     private ProductService productService = (ProductService) injector
             .getInstance(ProductService.class);
-    private ShoppingCartService shoppingCartService
-            = (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
+    private ShoppingCartService shoppingCartService = (ShoppingCartService) injector
+            .getInstance(ShoppingCartService.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

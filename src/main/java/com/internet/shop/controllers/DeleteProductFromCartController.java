@@ -11,14 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class DeleteProductFromCartController extends HttpServlet {
-    public static final Injector injector = Injector
-            .getInstance("com.internet.shop");
+    public static final Injector injector = Injector.getInstance("com.internet.shop");
     private static final Long USER_ID = 1L;
-    private ProductService productService =
-            (ProductService) injector
+    private ProductService productService = (ProductService) injector
                     .getInstance(ProductService.class);
-    private ShoppingCartService shoppingCartService =
-            (ShoppingCartService) injector
+    private ShoppingCartService shoppingCartService = (ShoppingCartService) injector
                     .getInstance(ShoppingCartService.class);
 
     @Override

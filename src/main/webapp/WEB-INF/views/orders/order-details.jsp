@@ -27,6 +27,6 @@
         </tr>
     </c:forEach>
 </table>
-<a href="${pageContext.request.contextPath}/orders/all"> Go to all your orders </a>
+<a href="${pageContext.request.contextPath}/orders/by-user"> Go to all your orders </a>
 </body>
 </html>

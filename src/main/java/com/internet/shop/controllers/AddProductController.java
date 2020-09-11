@@ -9,11 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class AddProductAdminController extends HttpServlet {
-    private static final Injector injector = Injector
-            .getInstance("com.internet.shop");
-    private ProductService productService
-            = (ProductService) injector
+public class AddProductController extends HttpServlet {
+    private static final Injector injector = Injector.getInstance("com.internet.shop");
+    private ProductService productService = (ProductService) injector
             .getInstance(ProductService.class);
 
     @Override
@@ -34,8 +32,7 @@ public class AddProductAdminController extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/");
         } else {
             req.setAttribute("message", "You have entered invalid price format");
-            req.getRequestDispatcher("/WEB-INF/views/products/add.jsp")
-                    .forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/views/products/add.jsp").forward(req, resp);
         }
     }
 }

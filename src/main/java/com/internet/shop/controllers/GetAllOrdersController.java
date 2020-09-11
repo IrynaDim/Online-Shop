@@ -10,9 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class GetAllOrdersAdminController extends HttpServlet {
-    public static final Injector injector = Injector
-            .getInstance("com.internet.shop");
+public class GetAllOrdersController extends HttpServlet {
+    public static final Injector injector = Injector.getInstance("com.internet.shop");
     private OrderService orderService =
             (OrderService) injector.getInstance(OrderService.class);
 
@@ -21,7 +20,7 @@ public class GetAllOrdersAdminController extends HttpServlet {
             throws ServletException, IOException {
         List<Order> orders = orderService.getAll();
         req.setAttribute("orders", orders);
-        req.getRequestDispatcher("/WEB-INF/views/orders/all-admin.jsp")
+        req.getRequestDispatcher("/WEB-INF/views/orders/manage.jsp")
                 .forward(req, resp);
     }
 }
