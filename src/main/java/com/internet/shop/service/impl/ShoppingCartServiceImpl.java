@@ -47,4 +47,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public List<ShoppingCart> getAll() {
         return shoppingCart.getAll();
     }
+
+    @Override
+    public boolean delete(Long id) {
+        return shoppingCart.delete(id);
+    }
 }

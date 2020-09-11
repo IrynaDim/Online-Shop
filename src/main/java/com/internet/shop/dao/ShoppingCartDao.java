@@ -7,5 +7,7 @@ public interface ShoppingCartDao extends GenericDao<ShoppingCart, Long> {
 
     boolean delete(ShoppingCart cart);
 
+    boolean delete(Long id);
+
     Optional<ShoppingCart> getByUserId(Long userId);
 }
