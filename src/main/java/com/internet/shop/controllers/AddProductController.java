@@ -26,8 +26,8 @@ public class AddProductController extends HttpServlet {
             throws ServletException, IOException {
         String name = req.getParameter("name");
         String price = req.getParameter("price");
-        Double priceDouble = Double.parseDouble(price);
         if (price.matches("^\\d+(\\.\\d+)*$")) {
+            Double priceDouble = Double.parseDouble(price);
             productService.create(new Product(name, priceDouble));
             resp.sendRedirect(req.getContextPath() + "/");
         } else {

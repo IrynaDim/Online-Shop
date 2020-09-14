@@ -172,5 +172,4 @@
         <servlet-name>deleteOrdersAdmin</servlet-name>
         <url-pattern>/orders/delete</url-pattern>
     </servlet-mapping>
-
 </web-app>
