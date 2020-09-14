@@ -100,7 +100,7 @@
 
     <servlet-mapping>
         <servlet-name>allProductsAdmin</servlet-name>
-        <url-pattern>/products/all-admin</url-pattern>
+        <url-pattern>/products/manage</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -145,12 +145,12 @@
 
     <servlet>
         <servlet-name>orderDetails</servlet-name>
-        <servlet-class>com.internet.shop.controllers.GerOrderDetailController</servlet-class>
+        <servlet-class>com.internet.shop.controllers.GetOrderDetailController</servlet-class>
     </servlet>
 
     <servlet-mapping>
         <servlet-name>orderDetails</servlet-name>
-        <url-pattern>/orders/by-user/details</url-pattern>
+        <url-pattern>/orders/details</url-pattern>
     </servlet-mapping>
 
     <servlet>
