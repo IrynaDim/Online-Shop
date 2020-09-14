@@ -19,7 +19,7 @@
                 <c:out value="${user.id}"/>
             </td>
             <td>
-                <c:out value="${user.name}"/>
+                <c:out value="${user.login}"/>
             </td>
             <td>
                 <a href="${pageContext.request.contextPath}/users/delete?id=${user.id}">Delete</a>
