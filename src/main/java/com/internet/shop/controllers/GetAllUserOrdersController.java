@@ -11,15 +11,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class GetAllUserOrdersController extends HttpServlet {
-    public static final Long USER_ID = 1L;
     public static final Injector injector = Injector.getInstance("com.internet.shop");
+    private static final String USER_ID = "user_id";
     private OrderService orderService = (OrderService) injector
                     .getInstance(OrderService.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        List<Order> orders = orderService.getUsersOrders(USER_ID);
+        Long userId = (Long) req.getSession().getAttribute(USER_ID);
+        List<Order> orders = orderService.getUsersOrders(userId);
         req.setAttribute("orders", orders);
         req.getRequestDispatcher("/WEB-INF/views/orders/by-user.jsp")
                 .forward(req, resp);
