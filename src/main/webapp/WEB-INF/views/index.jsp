@@ -7,5 +7,6 @@
 <h1>Hello! Welcome to Ira's Internet Shop. </h1>
 
 <a href="${pageContext.request.contextPath}/injectData"> Inject test data into the DB </a>
+<a href="${pageContext.request.contextPath}/products/all"> All products </a>
 </body>
 </html>

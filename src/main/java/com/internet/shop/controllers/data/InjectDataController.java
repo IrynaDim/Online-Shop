@@ -1,4 +1,4 @@
-package com.internet.shop.controllers;
+package com.internet.shop.controllers.data;
 
 import com.internet.shop.lib.Injector;
 import com.internet.shop.model.Product;
@@ -25,10 +25,10 @@ public class InjectDataController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         User bob = new User("Bob", "1111");
-        User maria = new User("Maria", "0000");
         userService.create(bob);
-        userService.create(maria);
         shoppingCart.create(new ShoppingCart(bob.getId()));
+        User maria = new User("Maria", "0000");
+        userService.create(maria);
         shoppingCart.create(new ShoppingCart(maria.getId()));
         Product teapot = new Product("Teapot", 300);
         Product spoon = new Product("Spoon", 50);

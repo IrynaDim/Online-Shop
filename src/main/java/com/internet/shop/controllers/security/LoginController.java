@@ -41,4 +41,3 @@ public class LoginController extends HttpServlet {
         resp.sendRedirect(req.getContextPath() + "/");
     }
 }
-
