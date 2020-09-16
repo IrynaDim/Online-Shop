@@ -15,7 +15,7 @@
 
     <servlet>
         <servlet-name>injectData</servlet-name>
-        <servlet-class>com.internet.shop.controllers.InjectDataController</servlet-class>
+        <servlet-class>com.internet.shop.controllers.data.InjectDataController</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -25,7 +25,7 @@
 
     <servlet>
         <servlet-name>registration</servlet-name>
-        <servlet-class>com.internet.shop.controllers.RegistrationController</servlet-class>
+        <servlet-class>com.internet.shop.controllers.user.RegistrationController</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -35,7 +35,7 @@
 
     <servlet>
         <servlet-name>addProduct</servlet-name>
-        <servlet-class>com.internet.shop.controllers.AddProductController</servlet-class>
+        <servlet-class>com.internet.shop.controllers.admin.AddProductController</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -45,7 +45,7 @@
 
     <servlet>
         <servlet-name>userDelete</servlet-name>
-        <servlet-class>com.internet.shop.controllers.DeleteUsersController</servlet-class>
+        <servlet-class>com.internet.shop.controllers.admin.DeleteUsersController</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -55,7 +55,7 @@
 
     <servlet>
         <servlet-name>allUsers</servlet-name>
-        <servlet-class>com.internet.shop.controllers.GetAllUsersController</servlet-class>
+        <servlet-class>com.internet.shop.controllers.admin.GetAllUsersController</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -65,7 +65,7 @@
 
     <servlet>
         <servlet-name>allProducts</servlet-name>
-        <servlet-class>com.internet.shop.controllers.GetAllProductsController</servlet-class>
+        <servlet-class>com.internet.shop.controllers.user.GetAllProductsController</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -75,7 +75,7 @@
 
     <servlet>
         <servlet-name>UsersShoppingCart</servlet-name>
-        <servlet-class>com.internet.shop.controllers.GetCartProductsController</servlet-class>
+        <servlet-class>com.internet.shop.controllers.user.GetCartProductsController</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -85,7 +85,7 @@
 
     <servlet>
         <servlet-name>addToCart</servlet-name>
-        <servlet-class>com.internet.shop.controllers.AddProductToCartController</servlet-class>
+        <servlet-class>com.internet.shop.controllers.user.AddProductToCartController</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -95,7 +95,7 @@
 
     <servlet>
         <servlet-name>allProductsAdmin</servlet-name>
-        <servlet-class>com.internet.shop.controllers.ManageAllProductsController</servlet-class>
+        <servlet-class>com.internet.shop.controllers.admin.ManageAllProductsController</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -105,7 +105,7 @@
 
     <servlet>
         <servlet-name>productsDeleteAdmin</servlet-name>
-        <servlet-class>com.internet.shop.controllers.DeleteProductController</servlet-class>
+        <servlet-class>com.internet.shop.controllers.admin.DeleteProductController</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -115,7 +115,7 @@
 
     <servlet>
         <servlet-name>cartDeleteProduct</servlet-name>
-        <servlet-class>com.internet.shop.controllers.DeleteProductFromCartController</servlet-class>
+        <servlet-class>com.internet.shop.controllers.user.DeleteProductFromCartController</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -125,7 +125,7 @@
 
     <servlet>
         <servlet-name>completeOrder</servlet-name>
-        <servlet-class>com.internet.shop.controllers.CompleteOrderController</servlet-class>
+        <servlet-class>com.internet.shop.controllers.user.CompleteOrderController</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -135,7 +135,7 @@
 
     <servlet>
         <servlet-name>allOrders</servlet-name>
-        <servlet-class>com.internet.shop.controllers.GetAllUserOrdersController</servlet-class>
+        <servlet-class>com.internet.shop.controllers.user.GetAllUserOrdersController</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -145,7 +145,7 @@
 
     <servlet>
         <servlet-name>orderDetails</servlet-name>
-        <servlet-class>com.internet.shop.controllers.GetOrderDetailController</servlet-class>
+        <servlet-class>com.internet.shop.controllers.user.GetOrderDetailController</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -155,7 +155,7 @@
 
     <servlet>
         <servlet-name>allOrdersAdmin</servlet-name>
-        <servlet-class>com.internet.shop.controllers.GetAllOrdersController</servlet-class>
+        <servlet-class>com.internet.shop.controllers.admin.GetAllOrdersController</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -165,7 +165,7 @@
 
     <servlet>
         <servlet-name>deleteOrdersAdmin</servlet-name>
-        <servlet-class>com.internet.shop.controllers.DeleteOrderController</servlet-class>
+        <servlet-class>com.internet.shop.controllers.admin.DeleteOrderController</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -191,5 +191,4 @@
         <filter-name>authenticationFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-
 </web-app>
