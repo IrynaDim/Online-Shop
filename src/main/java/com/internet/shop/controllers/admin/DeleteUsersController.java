@@ -27,9 +27,9 @@ public class DeleteUsersController extends HttpServlet {
             req.getRequestDispatcher("/WEB-INF/views/accessDenied.jsp").forward(req, resp);
             return;
         }
-        userService.delete(id);
         ShoppingCart cart = shoppingCartService.getByUserId(id);
         shoppingCartService.delete(cart.getId());
+        userService.delete(id);
         resp.sendRedirect(req.getContextPath() + "/users/all");
     }
 }

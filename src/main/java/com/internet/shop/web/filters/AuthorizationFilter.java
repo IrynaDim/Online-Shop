@@ -28,14 +28,16 @@ public class AuthorizationFilter implements Filter {
         protectedUrl.put("/products/add", List.of(Role.RoleName.ADMIN));
         protectedUrl.put("/users/delete", List.of(Role.RoleName.ADMIN));
         protectedUrl.put("/users/all", List.of(Role.RoleName.ADMIN));
-        protectedUrl.put("/shopping-cart/products", List.of(Role.RoleName.USER));
-        protectedUrl.put("/shopping-cart/products/add", List.of(Role.RoleName.USER));
         protectedUrl.put("/products/manage", List.of(Role.RoleName.ADMIN));
         protectedUrl.put("/products/delete", List.of(Role.RoleName.ADMIN));
-        protectedUrl.put("/shopping-cart/product/delete", List.of(Role.RoleName.USER));
         protectedUrl.put("/orders/manage", List.of(Role.RoleName.ADMIN));
         protectedUrl.put("/orders/delete", List.of(Role.RoleName.ADMIN));
         protectedUrl.put("/orders/admin/details", List.of(Role.RoleName.ADMIN));
+        protectedUrl.put("/shopping-cart/products", List.of(Role.RoleName.USER));
+        protectedUrl.put("/shopping-cart/products/add", List.of(Role.RoleName.USER));
+        protectedUrl.put("/shopping-cart/product/delete", List.of(Role.RoleName.USER));
+        protectedUrl.put("/orders/complete", List.of(Role.RoleName.USER));
+        protectedUrl.put("/orders/by-user", List.of(Role.RoleName.USER));
     }
 
     @Override
