@@ -191,4 +191,33 @@
         <filter-name>authenticationFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+    <servlet>
+        <servlet-name>logout</servlet-name>
+        <servlet-class>com.internet.shop.controllers.security.LogoutController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>logout</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>authorizationFilter</filter-name>
+        <filter-class>com.internet.shop.web.filters.AuthorizationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>authorizationFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <servlet>
+        <servlet-name>orderAdminDetails</servlet-name>
+        <servlet-class>com.internet.shop.controllers.admin.GetAllOrdersDetailsAdminController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>orderAdminDetails</servlet-name>
+        <url-pattern>/orders/admin/details</url-pattern>
+    </servlet-mapping>
+
 </web-app>

@@ -1,10 +1,13 @@
 package com.internet.shop.model;
 
+import java.util.Set;
+
 public class User {
     private Long id;
     private String name;
     private String login;
     private String password;
+    private Set<Role> roles;
 
     public User(String name, String login, String password) {
         this.name = name;
@@ -19,6 +22,14 @@ public class User {
 
     public User(String name) {
         this.name = name;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
     }
 
     public Long getId() {

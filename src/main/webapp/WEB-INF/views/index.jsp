@@ -8,5 +8,7 @@
 
 <a href="${pageContext.request.contextPath}/injectData"> Inject test data into the DB </a>
 <a href="${pageContext.request.contextPath}/products/all"> All products </a>
+<a href="${pageContext.request.contextPath}/logout"> Logout </a>
 </body>
 </html>
+
