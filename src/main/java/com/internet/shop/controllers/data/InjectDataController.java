@@ -47,4 +47,3 @@ public class InjectDataController extends HttpServlet {
         req.getRequestDispatcher("/WEB-INF/views/injectData.jsp").forward(req, resp);
     }
 }
-
