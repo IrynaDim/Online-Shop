@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class DeleteUsersController extends HttpServlet {
     public static final Injector injector = Injector.getInstance("com.internet.shop");
+    private static final String USER_ID = "user_id";
     private UserService userService = (UserService) injector.getInstance(UserService.class);
     private ShoppingCartService shoppingCartService
             = (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
@@ -19,11 +20,15 @@ public class DeleteUsersController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        String userId = req.getParameter("id");
-        Long id = Long.valueOf(userId);
-        userService.delete(id);
+        Long userId = (Long) req.getSession().getAttribute(USER_ID);
+        Long id = Long.valueOf(req.getParameter("id"));
+        if (userId.equals(id)) {
+            req.getRequestDispatcher("/WEB-INF/views/accessDenied.jsp").forward(req, resp);
+            return;
+        }
         ShoppingCart cart = shoppingCartService.getByUserId(id);
         shoppingCartService.delete(cart.getId());
+        userService.delete(id);
         resp.sendRedirect(req.getContextPath() + "/users/all");
     }
 }
