@@ -21,8 +21,7 @@ public class DeleteUsersController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         Long userId = (Long) req.getSession().getAttribute(USER_ID);
-        String userToDeleteId = req.getParameter("id");
-        Long id = Long.valueOf(userToDeleteId);
+        Long id = Long.valueOf(req.getParameter("id"));
         if (userId.equals(id)) {
             req.getRequestDispatcher("/WEB-INF/views/accessDenied.jsp").forward(req, resp);
             return;

@@ -212,7 +212,7 @@
     </filter-mapping>
     <servlet>
         <servlet-name>orderAdminDetails</servlet-name>
-        <servlet-class>com.internet.shop.controllers.admin.GetAllOrdersDetailsAdminController</servlet-class>
+        <servlet-class>com.internet.shop.controllers.admin.GetOrderDetailsAdminController</servlet-class>
     </servlet>
 
     <servlet-mapping>
