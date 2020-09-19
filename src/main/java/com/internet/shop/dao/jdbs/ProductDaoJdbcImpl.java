@@ -5,6 +5,7 @@ import com.internet.shop.exceptions.DataException;
 import com.internet.shop.lib.Dao;
 import com.internet.shop.model.Product;
 import com.internet.shop.util.ConnectionUtil;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,10 +30,10 @@ public class ProductDaoJdbcImpl implements ProductDao {
             if (resultSet.next()) {
                 product.setId(resultSet.getLong(1));
             }
+            return product;
         } catch (SQLException e) {
             throw new DataException("Adding item with id " + product.getId() + " is failed. ", e);
         }
-        return product;
     }
 
     @Override
