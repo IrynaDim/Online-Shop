@@ -1,11 +1,10 @@
 package com.internet.shop.dao.jdbs;
 
 import com.internet.shop.dao.ProductDao;
-import com.internet.shop.exceptions.DataException;
+import com.internet.shop.exceptions.DataProcessingException;
 import com.internet.shop.lib.Dao;
 import com.internet.shop.model.Product;
 import com.internet.shop.util.ConnectionUtil;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,13 +25,14 @@ public class ProductDaoJdbcImpl implements ProductDao {
             statement.setString(1, product.getName());
             statement.setDouble(2, product.getPrice());
             statement.executeUpdate();
-            ResultSet resultSet = statement.getGeneratedKeys();
-            if (resultSet.next()) {
-                product.setId(resultSet.getLong(1));
+            ResultSet rs = statement.getGeneratedKeys();
+            if (rs.next()) {
+                product.setId(rs.getLong(1));
             }
             return product;
         } catch (SQLException e) {
-            throw new DataException("Adding item with id " + product.getId() + " is failed. ", e);
+            throw new DataProcessingException("Adding item with id "
+                    + product.getId() + " is failed. ", e);
         }
     }
 
@@ -42,37 +42,28 @@ public class ProductDaoJdbcImpl implements ProductDao {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT * FROM products WHERE deleted=0 AND product_id=?");
             statement.setLong(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                long productId = resultSet.getLong("product_id");
-                String type = resultSet.getString("type");
-                double price = resultSet.getDouble("price");
-                Product product = new Product(productId, type, price);
-                return Optional.of(product);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                return Optional.of(createProduct(rs));
             }
         } catch (SQLException e) {
-            throw new DataException("Get product with id " + id + " is failed. ", e);
+            throw new DataProcessingException("Get product with id " + id + " is failed. ", e);
         }
         return Optional.empty();
     }
 
     @Override
-    public List<Product> getAll() { // работает
+    public List<Product> getAll() {
         List<Product> products = new ArrayList<>();
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT * FROM products WHERE deleted = 0");
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                long productId = rs.getLong("product_id");
-                String name = rs.getString("type");
-                double price = rs.getDouble("price");
-                Product product = new Product(productId, name, price);
-                products.add(product);
+                products.add(createProduct(rs));
             }
-
         } catch (SQLException e) {
-            throw new DataException("Getting all products is failed. ", e);
+            throw new DataProcessingException("Getting all products is failed. ", e);
         }
         return products;
     }
@@ -87,7 +78,7 @@ public class ProductDaoJdbcImpl implements ProductDao {
             statement.setLong(3, product.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DataException("Updating product with id "
+            throw new DataProcessingException("Updating product with id "
                     + product.getId() + " is failed. ", e);
         }
         return product;
@@ -102,7 +93,15 @@ public class ProductDaoJdbcImpl implements ProductDao {
             int i = statement.executeUpdate();
             return i == 1;
         } catch (SQLException e) {
-            throw new DataException("Removing product with id " + id + " is failed. ", e);
+            throw new DataProcessingException("Removing product with id " + id + " is failed. ", e);
         }
+    }
+
+    private Product createProduct(ResultSet rs) throws SQLException {
+        long productId = rs.getLong("product_id");
+        String name = rs.getString("type");
+        double price = rs.getDouble("price");
+        Product product = new Product(productId, name, price);
+        return product;
     }
 }
