@@ -44,7 +44,7 @@ public class ProductDaoJdbcImpl implements ProductDao {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                return Optional.of(createProduct(resultSet));
+                return Optional.of(getFromResultSet(resultSet));
             }
         } catch (SQLException e) {
             throw new DataProcessingException("Get product with id " + id + " is failed. ", e);
@@ -60,7 +60,7 @@ public class ProductDaoJdbcImpl implements ProductDao {
                     "SELECT * FROM products WHERE deleted = FALSE");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                products.add(createProduct(resultSet));
+                products.add(getFromResultSet(resultSet));
             }
         } catch (SQLException e) {
             throw new DataProcessingException("Getting all products is failed. ", e);
@@ -97,10 +97,10 @@ public class ProductDaoJdbcImpl implements ProductDao {
         }
     }
 
-    private Product createProduct(ResultSet rs) throws SQLException {
-        long productId = rs.getLong("product_id");
-        String name = rs.getString("type");
-        double price = rs.getDouble("price");
+    private Product getFromResultSet(ResultSet resultSet) throws SQLException {
+        long productId = resultSet.getLong("product_id");
+        String name = resultSet.getString("type");
+        double price = resultSet.getDouble("price");
         Product product = new Product(productId, name, price);
         return product;
     }
