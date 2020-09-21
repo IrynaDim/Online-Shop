@@ -10,7 +10,7 @@ public class ConnectionUtil {
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Driver are not installed", e);
+            throw new RuntimeException("Driver is not installed", e);
         }
     }
 
@@ -23,7 +23,7 @@ public class ConnectionUtil {
         try {
             conn = DriverManager.getConnection(url, connectionProps);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Can not connect to the data base. ", e);
         }
         return conn;
     }
