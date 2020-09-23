@@ -6,10 +6,16 @@ import com.internet.shop.lib.Dao;
 import com.internet.shop.model.Role;
 import com.internet.shop.model.User;
 import com.internet.shop.util.ConnectionUtil;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Dao
 public class UserDaoJdbcImpl implements UserDao {
@@ -22,7 +28,8 @@ public class UserDaoJdbcImpl implements UserDao {
             int isDeleted = statement.executeUpdate();
             return isDeleted == 1;
         } catch (SQLException e) {
-            throw new DataProcessingException("Removing user with id " + user.getId() + " was failed. ", e);
+            throw new DataProcessingException("Removing user with id " + user.getId()
+                    + " was failed. ", e);
         }
     }
 
@@ -37,7 +44,8 @@ public class UserDaoJdbcImpl implements UserDao {
                 return Optional.of(getFromResultSet(resultSet));
             }
         } catch (SQLException e) {
-            throw new DataProcessingException("Getting user with login " + login + " was failed. ", e);
+            throw new DataProcessingException("Getting user with login "
+                    + login + " was failed. ", e);
         }
         return Optional.empty();
     }
@@ -67,18 +75,20 @@ public class UserDaoJdbcImpl implements UserDao {
 
     @Override
     public Optional<User> get(Long id) {
+        User user = new User();
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT * FROM users WHERE deleted=FALSE AND user_id=?");
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                return Optional.of(getFromResultSet(resultSet));
+                user = Optional.of(getFromResultSet(resultSet)).get();
             }
         } catch (SQLException e) {
             throw new DataProcessingException("Getting user with id " + id + " was failed. ", e);
         }
-        return Optional.empty();
+        user.setRoles(getUserRoles(id));
+        return Optional.of(user);
     }
 
     @Override
@@ -128,7 +138,7 @@ public class UserDaoJdbcImpl implements UserDao {
         return users;
     }
 
-    private User getFromResultSet(ResultSet resultSet) throws SQLException { // work
+    private User getFromResultSet(ResultSet resultSet) throws SQLException {
         long userId = resultSet.getLong("user_id");
         String login = resultSet.getString("login");
         String password = resultSet.getString("password");
@@ -149,8 +159,8 @@ public class UserDaoJdbcImpl implements UserDao {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DataProcessingException("Can't set role for user with id  "
-                    + user.getId(), e);
+            throw new DataProcessingException("Setting role for user with id  "
+                    + user.getId() + " was failed. ", e);
         }
     }
 
@@ -164,8 +174,8 @@ public class UserDaoJdbcImpl implements UserDao {
                 return resultSet.getLong(1);
             }
         } catch (SQLException e) {
-            throw new DataProcessingException("Can't get role id for role name  "
-                    + roleName, e);
+            throw new DataProcessingException("Getting role id for role name  "
+                    + roleName + " was failed. ", e);
         }
         return 0;
     }
@@ -177,8 +187,28 @@ public class UserDaoJdbcImpl implements UserDao {
             statement.setLong(1, userId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DataProcessingException("Can't delete roles for user with id: "
-                    + userId, e);
+            throw new DataProcessingException("Deleting roles for user with id: "
+                    + userId + " was failed. ", e);
         }
+    }
+
+    private Set<Role> getUserRoles(long userId) {
+        Set<Role> roles = new HashSet<>();
+        try (Connection connection = ConnectionUtil.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT role_name FROM roles INNER JOIN users_roles "
+                            + "ON roles.role_id = users_roles.role_id "
+                            + "WHERE users_roles.user_id = ?;");
+            statement.setLong(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Role role = Role.of(resultSet.getString("role_name"));
+                roles.add(role);
+            }
+        } catch (SQLException e) {
+            throw new DataProcessingException("Getting roles for user with id: "
+                    + userId + " was failed. ", e);
+        }
+        return roles;
     }
 }

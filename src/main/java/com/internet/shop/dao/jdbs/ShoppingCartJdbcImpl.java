@@ -3,12 +3,14 @@ package com.internet.shop.dao.jdbs;
 import com.internet.shop.dao.ShoppingCartDao;
 import com.internet.shop.exceptions.DataProcessingException;
 import com.internet.shop.lib.Dao;
-import com.internet.shop.model.Order;
 import com.internet.shop.model.Product;
 import com.internet.shop.model.ShoppingCart;
 import com.internet.shop.util.ConnectionUtil;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,12 +22,13 @@ public class ShoppingCartJdbcImpl implements ShoppingCartDao {
         deleteProducts(cart.getId());
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
-                    "UPDATE shopping_carts SET deleted = TRUE WHERE cart_id = ? AND deleted = FALSE");
+                    "UPDATE shopping_carts SET deleted = TRUE WHERE cart_id = ? "
+                            + "AND deleted = FALSE");
             statement.setLong(1, cart.getId());
             return statement.executeUpdate() == 1;
         } catch (SQLException e) {
-            throw new DataProcessingException("Cant delete order by id: "
-                    + cart.getId(), e);
+            throw new DataProcessingException("Deleting order by id: "
+                    + cart.getId() + " was failed", e);
         }
     }
 
@@ -34,12 +37,13 @@ public class ShoppingCartJdbcImpl implements ShoppingCartDao {
         deleteProducts(id);
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
-                    "UPDATE shopping_carts SET deleted = TRUE WHERE cart_id = ? AND deleted = FALSE");
+                    "UPDATE shopping_carts SET deleted = TRUE WHERE cart_id = ? "
+                            + "AND deleted = FALSE");
             statement.setLong(1, id);
             return statement.executeUpdate() == 1;
         } catch (SQLException e) {
-            throw new DataProcessingException("Cant delete order by id: "
-                    + id, e);
+            throw new DataProcessingException("Deleting order by id: "
+                    + id + " was failed", e);
         }
     }
 
@@ -58,8 +62,8 @@ public class ShoppingCartJdbcImpl implements ShoppingCartDao {
                 return cart;
             }
         } catch (SQLException e) {
-            throw new DataProcessingException("Couldn't find cart by specified cartID: "
-                    + userId, e);
+            throw new DataProcessingException("Finding cart by user id: "
+                    + userId + " was failed", e);
         }
         cart.get().setProducts(getProducts(cart.get().getId()));
         return cart;
@@ -79,7 +83,7 @@ public class ShoppingCartJdbcImpl implements ShoppingCartDao {
             }
             return cart;
         } catch (SQLException e) {
-            throw new DataProcessingException("Cant create cart " + cart, e);
+            throw new DataProcessingException("Creating cart " + cart + " was failed", e);
         }
     }
 
@@ -98,8 +102,8 @@ public class ShoppingCartJdbcImpl implements ShoppingCartDao {
             }
             return Optional.empty();
         } catch (SQLException e) {
-            throw new DataProcessingException("Couldn't find cart by specified cartID: "
-                    + cartId, e);
+            throw new DataProcessingException("Finding cart by id: "
+                    + cartId + " was failed", e);
         }
     }
 
@@ -120,8 +124,8 @@ public class ShoppingCartJdbcImpl implements ShoppingCartDao {
             statement.setLong(1, cartId);
             return statement.executeUpdate() == 1;
         } catch (SQLException e) {
-            throw new DataProcessingException("Cant delete cart by cart id: "
-                    + cartId, e);
+            throw new DataProcessingException("Deleting cart by id: "
+                    + cartId + " was failed", e);
         }
     }
 
@@ -136,7 +140,7 @@ public class ShoppingCartJdbcImpl implements ShoppingCartDao {
                 allCarts.add(getCartFromResult(resultSet));
             }
         } catch (SQLException e) {
-            throw new DataProcessingException("Couldn't get carts from DataBase", e);
+            throw new DataProcessingException("Getting carts from DB was failed", e);
         }
         for (ShoppingCart cart : allCarts) {
             cart.setProducts(getProducts(cart.getId()));
@@ -151,8 +155,8 @@ public class ShoppingCartJdbcImpl implements ShoppingCartDao {
             statement.setLong(1, cartId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DataProcessingException("Cant delete products by cart id: "
-                    + cartId, e);
+            throw new DataProcessingException("Deleting products by cart id: "
+                    + cartId + " was failed", e);
         }
     }
 
@@ -175,8 +179,8 @@ public class ShoppingCartJdbcImpl implements ShoppingCartDao {
             }
             return cartProducts;
         } catch (SQLException e) {
-            throw new DataProcessingException("Cant get products from DB "
-                    + "by cart id:" + cartId, e);
+            throw new DataProcessingException("Getting products from DB "
+                    + "by cart id:" + cartId + " was failed", e);
         }
     }
 
@@ -190,8 +194,8 @@ public class ShoppingCartJdbcImpl implements ShoppingCartDao {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DataProcessingException("Cant add products by cart id: "
-                    + cartId, e);
+            throw new DataProcessingException("Adding products by cart id: "
+                    + cartId + " was failed", e);
         }
     }
 

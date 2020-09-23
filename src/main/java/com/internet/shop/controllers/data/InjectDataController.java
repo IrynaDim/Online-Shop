@@ -26,12 +26,12 @@ public class InjectDataController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        User bob = new User("Bob", "1111");
+        User bob = new User("dddd", "1111");
         bob.setRoles(Set.of(Role.of("USER")));
         userService.create(bob);
         shoppingCart.create(new ShoppingCart(bob.getId()));
 
-        User maria = new User("Maria", "0000");
+        User maria = new User("Olga", "0000");
         maria.setRoles(Set.of(Role.of("USER")));
         userService.create(maria);
         shoppingCart.create(new ShoppingCart(maria.getId()));
@@ -41,9 +41,9 @@ public class InjectDataController extends HttpServlet {
         userService.create(admin);
 
         Product teapot = new Product("Teapot", 300);
-        Product spoon = new Product("Spoon", 50);
+        Product fork = new Product("Fork", 50);
         productService.create(teapot);
-        productService.create(spoon);
+        productService.create(fork);
         req.getRequestDispatcher("/WEB-INF/views/injectData.jsp").forward(req, resp);
     }
 }

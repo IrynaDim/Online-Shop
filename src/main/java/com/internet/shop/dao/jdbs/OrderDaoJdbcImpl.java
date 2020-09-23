@@ -6,7 +6,11 @@ import com.internet.shop.lib.Dao;
 import com.internet.shop.model.Order;
 import com.internet.shop.model.Product;
 import com.internet.shop.util.ConnectionUtil;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,8 +27,8 @@ public class OrderDaoJdbcImpl implements OrderDao {
             statement.setLong(1, order.getOrderId());
             return statement.executeUpdate() == 1;
         } catch (SQLException e) {
-            throw new DataProcessingException("Cant delete order by id: "
-                    + order.getOrderId(), e);
+            throw new DataProcessingException("Deleting order by id: "
+                    + order.getOrderId() + "was failed. ", e);
         }
     }
 
@@ -40,8 +44,8 @@ public class OrderDaoJdbcImpl implements OrderDao {
                 userOrders.add(getOrderFromResultSet(resultSet));
             }
         } catch (SQLException e) {
-            throw new DataProcessingException("Cant find orders by user id: "
-                    + userId, e);
+            throw new DataProcessingException("Finding orders by user id: "
+                    + userId + "was failed. ", e);
         }
         for (Order order : userOrders) {
             order.setProducts(getProducts(order.getOrderId()));
@@ -62,7 +66,7 @@ public class OrderDaoJdbcImpl implements OrderDao {
                 order.setOrderId(resultSet.getLong(1));
             }
         } catch (SQLException e) {
-            throw new DataProcessingException("Cant create order: " + order, e);
+            throw new DataProcessingException("Creating order: " + order + "was failed. ", e);
         }
         addProducts(order.getProducts(), order.getOrderId());
         return order;
@@ -83,32 +87,31 @@ public class OrderDaoJdbcImpl implements OrderDao {
             }
             return Optional.empty();
         } catch (SQLException e) {
-            throw new DataProcessingException("Cant find the order by id: "
-                    + orderId, e);
+            throw new DataProcessingException("Finding the order by id: "
+                    + orderId + "was failed. ", e);
         }
     }
 
     @Override
-        public Order update(Order order) {
-            deleteProducts(order.getOrderId());
-            addProducts(order.getProducts(), order.getOrderId());
-            return order;
-        }
+    public Order update(Order order) {
+        deleteProducts(order.getOrderId());
+        addProducts(order.getProducts(), order.getOrderId());
+        return order;
+    }
 
-
-        @Override
-        public boolean deleteById(Long orderId) {
-            String query = "UPDATE orders SET deleted = TRUE WHERE order_id = ? AND deleted = FALSE";
-            deleteProducts(orderId);
-            try (Connection connection = ConnectionUtil.getConnection()) {
-                PreparedStatement statement = connection.prepareStatement(query);
-                statement.setLong(1, orderId);
-                return statement.executeUpdate() == 1;
-            } catch (SQLException e) {
-                throw new DataProcessingException("Cant delete the order by id: "
-                        + orderId, e);
-            }
+    @Override
+    public boolean deleteById(Long orderId) {
+        String query = "UPDATE orders SET deleted = TRUE WHERE order_id = ? AND deleted = FALSE";
+        deleteProducts(orderId);
+        try (Connection connection = ConnectionUtil.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setLong(1, orderId);
+            return statement.executeUpdate() == 1;
+        } catch (SQLException e) {
+            throw new DataProcessingException("Deleting the order by id: "
+                    + orderId + "was failed. ", e);
         }
+    }
 
     @Override
     public List<Order> getAll() {
@@ -121,7 +124,7 @@ public class OrderDaoJdbcImpl implements OrderDao {
                 allOrders.add(getOrderFromResultSet(resultSet));
             }
         } catch (SQLException e) {
-            throw new DataProcessingException("Couldn't get orders from DataBase", e);
+            throw new DataProcessingException("Getting all orders from DB was failed", e);
         }
         for (Order order : allOrders) {
             order.setProducts(getProducts(order.getOrderId()));
@@ -136,10 +139,11 @@ public class OrderDaoJdbcImpl implements OrderDao {
             statement.setLong(1, orderId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DataProcessingException("Cant delete products by order id: "
-                    + orderId, e);
+            throw new DataProcessingException("Deleting products by order id: "
+                    + orderId + " was failed. ", e);
         }
     }
+
     private Order getOrderFromResultSet(ResultSet resultSet) throws SQLException {
         long orderId = resultSet.getLong("order_id");
         long userId = resultSet.getLong("user_id");
@@ -167,10 +171,11 @@ public class OrderDaoJdbcImpl implements OrderDao {
             }
             return orderedProducts;
         } catch (SQLException e) {
-            throw new DataProcessingException("Cant get products from DB "
-                    + "by order id:" + orderId, e);
+            throw new DataProcessingException("Getting products from DB "
+                    + "by order id:" + orderId + " was failed. ", e);
         }
     }
+
     private void addProducts(List<Product> products, long orderId) {
         String query = "INSERT INTO orders_products (order_id, product_id) VALUES (?, ?)";
         try (Connection connection = ConnectionUtil.getConnection()) {
@@ -181,8 +186,8 @@ public class OrderDaoJdbcImpl implements OrderDao {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DataProcessingException("Couldn't add products by specified orderID: "
-                    + orderId, e);
+            throw new DataProcessingException("Adding products to order by order id: "
+                    + orderId + " was failed. ", e);
         }
     }
 }
