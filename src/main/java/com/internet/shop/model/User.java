@@ -20,6 +20,12 @@ public class User {
         this.password = password;
     }
 
+    public User(Long id, String login, String password) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+    }
+
     public User(String name) {
         this.name = name;
     }
@@ -66,8 +72,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", name='"
-                + name + '\'' + ", login='" + login + '\''
+        return "User{" + "id=" + id + '\'' + ", login='" + login + '\''
                 + ", password='" + password + '\'' + '}';
     }
 }
