@@ -48,6 +48,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public boolean delete(Order order) {
-        return orderDao.delete(order);
+        return orderDao.deleteById(order.getOrderId());
     }
 }

@@ -19,7 +19,6 @@ import java.util.Optional;
 public class ShoppingCartJdbcImpl implements ShoppingCartDao {
     @Override
     public boolean delete(ShoppingCart cart) {
-        deleteProducts(cart.getId());
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
                     "UPDATE shopping_carts SET deleted = TRUE WHERE cart_id = ? "
@@ -58,12 +57,12 @@ public class ShoppingCartJdbcImpl implements ShoppingCartDao {
             if (resultSet.next()) {
                 cart = Optional.of(getCartFromResult(resultSet));
             }
-            if (cart.isEmpty()) {
-                return cart;
-            }
         } catch (SQLException e) {
             throw new DataProcessingException("Finding cart by user id: "
                     + userId + " was failed", e);
+        }
+        if (cart.isEmpty()) {
+            return cart;
         }
         cart.get().setProducts(getProducts(cart.get().getId()));
         return cart;
