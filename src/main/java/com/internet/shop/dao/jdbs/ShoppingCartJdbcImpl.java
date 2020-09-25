@@ -18,20 +18,6 @@ import java.util.Optional;
 @Dao
 public class ShoppingCartJdbcImpl implements ShoppingCartDao {
     @Override
-    public boolean delete(ShoppingCart cart) {
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(
-                    "UPDATE shopping_carts SET deleted = TRUE WHERE cart_id = ? "
-                            + "AND deleted = FALSE");
-            statement.setLong(1, cart.getId());
-            return statement.executeUpdate() == 1;
-        } catch (SQLException e) {
-            throw new DataProcessingException("Deleting order by id: "
-                    + cart.getId() + " was failed", e);
-        }
-    }
-
-    @Override
     public boolean delete(Long id) {
         deleteProducts(id);
         try (Connection connection = ConnectionUtil.getConnection()) {
@@ -48,24 +34,23 @@ public class ShoppingCartJdbcImpl implements ShoppingCartDao {
 
     @Override
     public Optional<ShoppingCart> getByUserId(Long userId) {
-        Optional<ShoppingCart> cart = Optional.empty();
+        ShoppingCart cart = null;
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT * FROM shopping_carts WHERE user_id = ? AND deleted = FALSE");
             statement.setLong(1, userId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                cart = Optional.of(getCartFromResult(resultSet));
+                cart = getCartFromResult(resultSet);
             }
         } catch (SQLException e) {
             throw new DataProcessingException("Finding cart by user id: "
                     + userId + " was failed", e);
         }
-        if (cart.isEmpty()) {
-            return cart;
+        if (cart != null) {
+            cart.setProducts(getProducts(cart.getId()));
         }
-        cart.get().setProducts(getProducts(cart.get().getId()));
-        return cart;
+        return Optional.ofNullable(cart);
     }
 
     @Override
@@ -121,7 +106,7 @@ public class ShoppingCartJdbcImpl implements ShoppingCartDao {
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, cartId);
-            return statement.executeUpdate() == 1;
+            return statement.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new DataProcessingException("Deleting cart by id: "
                     + cartId + " was failed", e);

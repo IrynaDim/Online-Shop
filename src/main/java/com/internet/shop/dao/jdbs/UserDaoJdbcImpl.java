@@ -35,8 +35,10 @@ public class UserDaoJdbcImpl implements UserDao {
             throw new DataProcessingException("Getting user with login "
                     + login + " was failed. ", e);
         }
-        user.setRoles(getUserRoles(user.getId()));
-        return Optional.of(user);
+        if (user != null) {
+            user.setRoles(getUserRoles(user.getId()));
+        }
+        return Optional.ofNullable(user);
     }
 
     @Override
@@ -77,7 +79,7 @@ public class UserDaoJdbcImpl implements UserDao {
         if (user != null) {
             user.setRoles(getUserRoles(id));
         }
-        return Optional.of(user);
+        return Optional.ofNullable(user);
     }
 
     @Override
@@ -105,7 +107,7 @@ public class UserDaoJdbcImpl implements UserDao {
                     "UPDATE users SET deleted = TRUE WHERE user_id = ?");
             statement.setLong(1, id);
             int isDeleted = statement.executeUpdate();
-            return isDeleted == 1;
+            return isDeleted > 0;
         } catch (SQLException e) {
             throw new DataProcessingException("Removing user with id " + id + " was failed. ", e);
         }
@@ -114,20 +116,19 @@ public class UserDaoJdbcImpl implements UserDao {
     @Override
     public List<User> getAll() {
         List<User> users = new ArrayList<>();
-        User user = null;
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT * FROM users WHERE deleted = FALSE");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                user = getFromResultSet(resultSet);
+                User user = getFromResultSet(resultSet);
                 users.add(user);
             }
         } catch (SQLException e) {
             throw new DataProcessingException("Getting all users was failed. ", e);
         }
-        for (User userInArray : users) {
-            userInArray.setRoles(getUserRoles(user.getId()));
+        for (User user : users) {
+            user.setRoles(getUserRoles(user.getId()));
         }
         return users;
     }
@@ -145,7 +146,6 @@ public class UserDaoJdbcImpl implements UserDao {
         try (Connection connection = ConnectionUtil.getConnection()) {
             for (Role role : user.getRoles()) {
                 String roleName = String.valueOf(role.getRoleName());
-                // long roleId = getRoleId(roleName);
                 PreparedStatement statement = connection.prepareStatement(
                         "INSERT INTO users_roles (user_id, role_id) VALUES (?, "
                                 + "(SELECT role_id FROM roles WHERE role_name = ?));");
