@@ -145,3 +145,6 @@ ADD CONSTRAINT `fk_productid`
 
 INSERT INTO `internet_shop`.`roles` (`role_id`, `role_name`) VALUES ('1', 'ADMIN');
 INSERT INTO `internet_shop`.`roles` (`role_id`, `role_name`) VALUES ('2', 'USER');
+
+ALTER TABLE `internet_shop`.`users`
+ADD COLUMN `salt` VARBINARY(16) NOT NULL AFTER `password`;
