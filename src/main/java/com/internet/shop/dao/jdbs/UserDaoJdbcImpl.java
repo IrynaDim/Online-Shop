@@ -45,10 +45,11 @@ public class UserDaoJdbcImpl implements UserDao {
     public User create(User user) {
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO users (login, password) VALUES (?, ?)",
+                    "INSERT INTO users (login, password, salt) VALUES (?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, user.getLogin());
             statement.setString(2, user.getPassword());
+            statement.setBytes(3, user.getSalt());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
@@ -86,10 +87,11 @@ public class UserDaoJdbcImpl implements UserDao {
     public User update(User user) {
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
-                    "UPDATE users SET login = ?, password = ? WHERE user_id = ?");
+                    "UPDATE users SET login = ?, password = ?, salt = ? WHERE user_id = ?");
             statement.setString(1, user.getLogin());
             statement.setString(2, user.getPassword());
-            statement.setLong(3, user.getId());
+            statement.setBytes(3, user.getSalt());
+            statement.setLong(4, user.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new DataProcessingException("Updating product with id "
@@ -137,7 +139,9 @@ public class UserDaoJdbcImpl implements UserDao {
         long userId = resultSet.getLong("user_id");
         String login = resultSet.getString("login");
         String password = resultSet.getString("password");
+        byte[] salt = resultSet.getBytes("salt");
         User user = new User(login, password);
+        user.setSalt(salt);
         user.setId(userId);
         return user;
     }
