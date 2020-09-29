@@ -5,7 +5,5 @@ import java.util.List;
 
 public interface OrderDao extends GenericDao<Order, Long> {
 
-    boolean delete(Order order);
-
     List<Order> getUserOrders(Long userId);
 }

@@ -9,6 +9,9 @@ public class User {
     private String password;
     private Set<Role> roles;
 
+    public User() {
+    }
+
     public User(String name, String login, String password) {
         this.name = name;
         this.login = login;
@@ -16,6 +19,12 @@ public class User {
     }
 
     public User(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+
+    public User(Long id, String login, String password) {
+        this.id = id;
         this.login = login;
         this.password = password;
     }
@@ -66,8 +75,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", name='"
-                + name + '\'' + ", login='" + login + '\''
+        return "User{" + "id=" + id + '\'' + ", login='" + login + '\''
                 + ", password='" + password + '\'' + '}';
     }
 }
