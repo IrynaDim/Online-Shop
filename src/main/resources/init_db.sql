@@ -4,6 +4,7 @@ CREATE TABLE `internet_shop`.`products` (
   `product_id` BIGINT(11) NOT NULL AUTO_INCREMENT,
   `type` VARCHAR(226) NOT NULL,
   `price` VARCHAR(226) NOT NULL,
+  `salt` VARBINARY(16) NOT NULL,
   `deleted` TINYINT NOT NULL DEFAULT '0',
   PRIMARY KEY (`product_id`),
   UNIQUE INDEX `product_id_UNIQUE` (`product_id` ASC) VISIBLE)
@@ -145,6 +146,3 @@ ADD CONSTRAINT `fk_productid`
 
 INSERT INTO `internet_shop`.`roles` (`role_id`, `role_name`) VALUES ('1', 'ADMIN');
 INSERT INTO `internet_shop`.`roles` (`role_id`, `role_name`) VALUES ('2', 'USER');
-
-ALTER TABLE `internet_shop`.`users`
-ADD COLUMN `salt` VARBINARY(16) NOT NULL AFTER `password`;
