@@ -4,6 +4,7 @@ CREATE TABLE `internet_shop`.`products` (
   `product_id` BIGINT(11) NOT NULL AUTO_INCREMENT,
   `type` VARCHAR(226) NOT NULL,
   `price` VARCHAR(226) NOT NULL,
+  `salt` VARBINARY(16) NOT NULL,
   `deleted` TINYINT NOT NULL DEFAULT '0',
   PRIMARY KEY (`product_id`),
   UNIQUE INDEX `product_id_UNIQUE` (`product_id` ASC) VISIBLE)

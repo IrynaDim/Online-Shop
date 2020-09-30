@@ -8,6 +8,7 @@ import com.internet.shop.model.User;
 import com.internet.shop.service.ProductService;
 import com.internet.shop.service.ShoppingCartService;
 import com.internet.shop.service.UserService;
+import com.internet.shop.util.HashUtil;
 import java.io.IOException;
 import java.util.Set;
 import javax.servlet.ServletException;
@@ -26,17 +27,20 @@ public class InjectDataController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        User bob = new User("dddd", "1111");
-        bob.setRoles(Set.of(Role.of("USER")));
-        userService.create(bob);
-        shoppingCart.create(new ShoppingCart(bob.getId()));
+        User harry = new User("Harry", "1111");
+        harry.setSalt(HashUtil.getSalt());
+        harry.setRoles(Set.of(Role.of("USER")));
+        userService.create(harry);
+        shoppingCart.create(new ShoppingCart(harry.getId()));
 
-        User maria = new User("Olga", "0000");
-        maria.setRoles(Set.of(Role.of("USER")));
-        userService.create(maria);
-        shoppingCart.create(new ShoppingCart(maria.getId()));
+        User valentina = new User("Valentina", "0000");
+        valentina.setSalt(HashUtil.getSalt());
+        valentina.setRoles(Set.of(Role.of("USER")));
+        userService.create(valentina);
+        shoppingCart.create(new ShoppingCart(valentina.getId()));
 
-        User admin = new User("Admin", "1557");
+        User admin = new User("AdminIra", "1557");
+        admin.setSalt(HashUtil.getSalt());
         admin.setRoles(Set.of(Role.of("ADMIN")));
         userService.create(admin);
 
