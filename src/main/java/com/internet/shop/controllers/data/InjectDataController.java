@@ -27,19 +27,13 @@ public class InjectDataController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        User harry = new User("Harry", "1111");
+        User harry = new User("User01", "1111");
         harry.setSalt(HashUtil.getSalt());
         harry.setRoles(Set.of(Role.of("USER")));
         userService.create(harry);
         shoppingCart.create(new ShoppingCart(harry.getId()));
 
-        User valentina = new User("Valentina", "0000");
-        valentina.setSalt(HashUtil.getSalt());
-        valentina.setRoles(Set.of(Role.of("USER")));
-        userService.create(valentina);
-        shoppingCart.create(new ShoppingCart(valentina.getId()));
-
-        User admin = new User("AdminIra", "1557");
+        User admin = new User("Admin01", "1557");
         admin.setSalt(HashUtil.getSalt());
         admin.setRoles(Set.of(Role.of("ADMIN")));
         userService.create(admin);
