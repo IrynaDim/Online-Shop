@@ -76,7 +76,7 @@ ADD CONSTRAINT `user_id`
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
 
-REATE TABLE `internet_shop`.`shopping_carts` (
+CREATE TABLE `internet_shop`.`shopping_carts` (
   `cart_id` BIGINT(11) NOT NULL AUTO_INCREMENT,
   `user_id` VARCHAR(256) NOT NULL,
   `deleted` TINYINT NOT NULL DEFAULT '0',
@@ -85,6 +85,9 @@ REATE TABLE `internet_shop`.`shopping_carts` (
 
 ALTER TABLE `internet_shop`.`shopping_carts`
 CHANGE COLUMN `user_id` `user_id` BIGINT(11) NOT NULL ;
+
+ALTER TABLE `internet_shop`.`shopping_carts`
+CHANGE COLUMN `user_id` `user_id` BIGINT NOT NULL ;
 
 ALTER TABLE `internet_shop`.`shopping_carts`
 ADD INDEX `user_id_fk_sc_idx` (`user_id` ASC) VISIBLE;
